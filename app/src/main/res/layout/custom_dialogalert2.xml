@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linear1"
+    android:layout_width="170dp"
+    android:layout_height="170dp">
+    <TableRow>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+
+            android:gravity="center"
+            android:layout_weight="2"
+            android:shadowColor="#E6FFFFFF"
+            android:text="Частичная оплата"
+            app:drawableTint="#A6A4A4"
+            android:textColor="#E6FFFFFF"/>
+
+
+    </TableRow>
+    <TableRow>
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:background="#5BA6A4A4"
+            android:gravity="center"
+            android:inputType="textMultiLine"
+            android:shadowColor="#A6A4A4"
+            android:text="ДТАТА"
+            android:textSelectHandleRight="@android:drawable/ic_menu_info_details"
+            app:drawableTint="#A6A4A4"
+            android:textColor="#E6FFFFFF"/>
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:background="#5BA6A4A4"
+            android:gravity="center|center_horizontal"
+            android:shadowColor="#A6A4A4"
+            android:text="СУММА"
+            android:textColor="#E6FFFFFF"/>
+    </TableRow>
+    <TableRow
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        >
+
+        <TextView
+            android:id="@+id/dateCD2"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center|center_horizontal"
+
+            android:text="0000.00.00"
+            android:textColor="#E6FFFFFF"/>
+
+        <EditText
+            android:id="@+id/summCD2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="number"
+
+            android:textColor="#E6FFFFFF"/>
+    </TableRow>
+    <TableRow
+        android:layout_width="200dp"
+        android:layout_height="200dp">
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="200dp"
+        android:layout_height="200dp"/>
+    <TableRow
+        android:layout_width="200dp"
+        android:layout_height="200dp">
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+
+            android:text="CANCEL" />
+
+        <Button
+            android:id="@+id/OK"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+
+            android:text="OK" />
+    </TableRow>
+
+</TableLayout>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="#6B808181"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <TextView
+        android:id="@+id/tvText"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_vertical"
+        android:gravity="center|left"
+        android:text=""
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/tvText0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvText0"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+
+        android:layout_gravity="center_vertical"
+
+
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toEndOf="@+id/tvText"
+        android:layout_toRightOf="@+id/tvText"
+        android:gravity="center"
+        android:text="Взято в долга руб."
+        android:textSize="8dp"
+        app:autoSizeTextType="none"
+        app:layout_constraintEnd_toStartOf="@+id/textView14"
+        app:layout_constraintStart_toEndOf="@+id/tvText"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvText1"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+
+
+        android:layout_below="@+id/tvText0"
+
+        android:textSize="10dp"
+        android:layout_toEndOf="@+id/tvText"
+        android:layout_toRightOf="@+id/tvText"
+        android:gravity="center"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="@+id/tvText0"
+        app:layout_constraintStart_toEndOf="@+id/tvText"
+        app:layout_constraintTop_toBottomOf="@+id/tvText0" />
+
+    <TextView
+        android:id="@+id/ostDol"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:text="TextView"
+        android:textSize="10dp"
+
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="@+id/textView14"
+        app:layout_constraintStart_toStartOf="@+id/textView14"
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignTop="@+id/tvText1"
+
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:text="Осталось долга"
+        android:textSize="8dp"
+        app:autoSizeTextType="none"
+        app:layout_constraintEnd_toStartOf="@+id/btmMenu"
+        app:layout_constraintStart_toEndOf="@+id/tvText0"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btmMenu"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:drawableBottom="@drawable/ic_group_collapse_14"
+        android:focusable="false"
+
+        android:linksClickable="true"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView14"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

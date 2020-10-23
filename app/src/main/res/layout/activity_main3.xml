@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#9FCAC9C9"
+    android:orientation="vertical">
+
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:background="#E6403E3E"
+        android:onClick="onButtonClick"
+        android:text="@string/add_record"
+        android:textColor="#E6FFFFFF" />
+
+    <ListView
+
+        android:id="@+id/lvData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:layout_below="@+id/button5"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="0dp"
+        android:background="#95FFFFFF"
+        android:divider="@android:color/transparent"
+
+        android:dividerHeight="10.0sp">
+
+
+    </ListView>
+
+
+</RelativeLayout>

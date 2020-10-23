@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:id="@+id/table"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button2"
+        android:layout_below="@+id/D"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:orientation="horizontal" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:background="#E6403E3E"
+        android:onClick="onClick"
+        android:text="редактировать"
+        android:textColor="#E6FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintStart_toStartOf="parent" />
+    <TableRow
+        android:id="@+id/A0"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        >
+
+        <TextView
+            android:id="@+id/Podr"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="#DF716F6F"
+            android:textColor="#E6FFFFFF"
+            android:text="ПОДРОБНЫЙ РАСЧЕТ" />
+
+    </TableRow>
+    <TableRow
+        android:id="@+id/A"
+        android:layout_below="@+id/A0"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        >
+
+        <TextView
+            android:id="@+id/SummD"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:gravity="fill"
+            android:text="Остаток долга" />
+
+        <TextView
+            android:id="@+id/SummD1"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="2"
+            android:gravity="center|right"
+            android:text="Сумма долга" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/B"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/A"
+        android:layout_marginTop="0dp">
+
+
+        <TextView
+            android:id="@+id/KolD"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_above="@+id/A"
+            android:layout_marginBottom="0dp"
+            android:layout_weight="1"
+            android:gravity="fill"
+            android:text="Количество дней задолженности" />
+
+        <TextView
+            android:id="@+id/KolD1"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="2"
+            android:gravity="center|right"
+            android:text="Кол дней" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/C"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/B"
+        android:layout_marginTop="0dp"
+        android:gravity="center|right">
+
+        <TextView
+            android:id="@+id/SummProz"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_above="@+id/D"
+
+            android:layout_weight="1"
+            android:gravity="fill"
+            android:text="Сумма начисленных %" />
+        <TextView
+            android:id="@+id/SummProz1"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="2"
+            android:gravity="center|right"
+            android:text="%" />
+
+
+    </TableRow>
+    <TableRow
+        android:id="@+id/D"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/C"
+        android:layout_marginTop="0dp"
+        android:gravity="center|right">
+
+
+        <TextView
+            android:id="@+id/VD"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_above="@+id/C"
+
+            android:layout_weight="1"
+            android:gravity="fill"
+            android:text="Взято в долг" />
+
+        <TextView
+            android:id="@+id/VD1"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="2"
+            android:gravity="center|right"
+            android:text="СУММА" />
+    </TableRow>
+
+    </RelativeLayout>
