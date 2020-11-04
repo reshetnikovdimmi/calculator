@@ -13,7 +13,7 @@ public class User {
     private int ID2;
     private int checkBox;
 
-    public User(long id, String name, int summ, int summ2, int ID2, String date_1, String date_2, String date_3, int checkBox, int proz,int summD1) {
+     public User(long id, String name, int summ, int summ2, int ID2, String date_1, String date_2, String date_3, int checkBox, int proz, int summD1) {
         this.id = id;
         this.name = name;
         this.summ = summ;
@@ -27,16 +27,21 @@ public class User {
         this.SummD1 = summD1;
     }
 
+    public User( int summ2, int ID2, String date_3,int summD1) {
+
+        this.summ2 = summ2;
+        this.ID2 = ID2;
+        this.date_3 = date_3;
+        this.SummD1 = summD1;
+
+    }
     public User( int summ2, int ID2, String date_3) {
 
         this.summ2 = summ2;
         this.ID2 = ID2;
         this.date_3 = date_3;
 
-    }
 
-    public void setCheckBox(int checkBox) {
-        this.checkBox = checkBox;
     }
 
     public void setSummD1(int summD1) {
@@ -74,16 +79,18 @@ public class User {
         this.proz = proz;
 
     }
-    public User(String name, int checkBox, int nam,int summD1, String date_1, String date_2) {
+    public User(long id,String name, int checkBox, int nam,int summD1, String date_1, String date_2, int proz) {
+        this.id = id;
         this.name = name;
         this.checkBox = checkBox;
         this.summ = nam;
         this.SummD1=summD1;
         this.date_1 = date_1;
         this.date_2 = date_2;
-
+        this.proz = proz;
 
     }
+
 
     public int getSummD1() {
         return SummD1;

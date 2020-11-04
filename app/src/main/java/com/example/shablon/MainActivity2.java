@@ -48,11 +48,9 @@ public class MainActivity2 extends AppCompatActivity {
     int cou2 = 0;
     int count3 = 0;
     int count4 = 0;
-    int count5 = 0;
     Date date11, date22;
     long milliseconds;
     private DB1 adapter;
-    Date_i_Time datetime;
     Cursor cursor;
     int days ;
     long userId;
@@ -95,7 +93,7 @@ LinearLayout tables;
         stringList4 = new ArrayList<>();
 
            dateFormat = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
-        //DateFormat dateFormat = new SimpleDateFormat("mm.dd.yyyy");
+
         Bundle c = this.getIntent().getExtras();
         if (c != null) {
             userId = c.getInt("userId");
@@ -152,19 +150,14 @@ LinearLayout tables;
         }
 
         date = new ArrayList<>();
-
         nameS = new ArrayList<>();
-
-        //nameS.add(0,user.getDate_1());
-
         cursor.moveToFirst();
         while(!cursor.isAfterLast()) {
             nameS.add(cursor.getString(cursor.getColumnIndex("date_3")));
             names2.add(cursor.getString(cursor.getColumnIndex("summ2")));
             cursor.moveToNext();
         }
-          //nameS.add(datetime.getContacts());
-//          Log.d("nameS", String.valueOf(datetime.getContacts()));
+
 nameS.add(0,user.getDate_1());
       nameS.add( user.getDate_2());
         Log.d("cou111", String.valueOf(nameS));
@@ -208,15 +201,12 @@ nameS.add(0,user.getDate_1());
                 //надо удалть
             names.remove(names.size()-1);
             names1.remove(0);
-
 //расчитывае сумму долга
             names3.add(String.valueOf(user.getSumm()));
             Log.d("cou111", String.valueOf(names));
-
             int c1 =0;
             for (int j = 0; j <names.size()-1; j++) {
                for (int i = 0; i < nameS.size()-2; i++) {
-
                         if (names.get(j).equals(nameS.get(i))) {
                             Log.d("cou1", String.valueOf(c1));
                             int s = Integer.parseInt(names3.get(names3.size()-1));
@@ -233,20 +223,10 @@ nameS.add(0,user.getDate_1());
                     }
               }
             SummD1.setText(names3.get(names3.size()-1));
-
-            int SummD1 = Integer.parseInt(names3.get(names3.size()-1));
-            user.setSummD1(SummD1);
-           // user = new User(userId, SummD1);
-            adapter.open();
-            adapter.update(user);
-            adapter.close();
-            //cursor.close();
-            Log.d("cou111", String.valueOf(names3));
         }else {
             cursor = adapter.getAllData2((int) userId);
             startManagingCursor(cursor);
             cursor.moveToFirst();
-
             //расчитываем сумму зад и период
             while (!cursor.isAfterLast()) {
                 names.add(cursor.getString(cursor.getColumnIndex("date_3")));
@@ -254,10 +234,8 @@ nameS.add(0,user.getDate_1());
                 names2.add(cursor.getString(cursor.getColumnIndex("summ2")));
                 cursor.moveToNext();
             }
-
             Log.d("array", String.valueOf(names1));
             //cursor.close();
-
             names.add(0, user.getDate_1());
             names1.add(user.getDate_2());
             names3.add(String.valueOf(user.getSumm()));
@@ -267,22 +245,11 @@ nameS.add(0,user.getDate_1());
                 names3.add(String.valueOf(s - s1));
             }
             SummD1.setText(names3.get(names3.size()-1));
-
-
             for (int i = 0; i<names3.size()+1;i++){
                 names6.add(String.valueOf(user.getProz()));
             }
-
         }
-        int SummD1 = Integer.parseInt(names3.get(names3.size()-1));
-          //user = new User(userId, SummD1);// здесь косяк
-          user.setSummD1(SummD1);
-          adapter.open();
-          adapter.update(user);
-          adapter.close();
-
         //асчитываем количество дней м/д датами и заполняем arr
-
             for (int i = 0; i < names.size(); i++) {
                 try {
                     date11 = dateFormat.parse(names.get(i));
@@ -331,39 +298,26 @@ KolD1.setText(String.valueOf(days));
         hsv.addView(tableLayout);
        sv.addView(hsv);
         tables.addView(sv);
-
-
     }
-
-
     private TableLayout createTableLayout(String[] cv, int rowCount, int columnCount)
     {
-//       User user = adapter.getUser(userId);
         // 1) Создаем макет таблицы и ее параметры
         TableLayout.LayoutParams tableLayoutParams = new TableLayout.LayoutParams();
         TableLayout tableLayout = new TableLayout(this);
         tableLayout.setBackgroundColor(Color.TRANSPARENT);
-
-
         // 2) создание tableRow параметры
         TableRow.LayoutParams tableRowParams = new TableRow.LayoutParams();
-
         tableRowParams.setMargins(7, 7, 7, 7);
         tableRowParams.weight = 20;
-
-
         for (int i = 0; i < rowCount; i++)
         {
             // 3) создание  tableRow
             TableRow tableRow = new TableRow(this);
-
             tableRow.setBackgroundColor(Color.TRANSPARENT);
-
             for (int j= 0; j < columnCount; j++)
             {
                 // 4) создание  textView
                 TextView textView = new TextView(this);
-
                 textView.setBackgroundColor(Color.GRAY);
                 textView.setGravity(Gravity.CENTER);
 textView.setTextSize(12);
@@ -373,37 +327,29 @@ textView.setTextColor(textColor);
                 String s1 = Integer.toString(i);
                 int id = Integer.parseInt(s1);
                 Log.d("TAG", "-___>"+id);
-
                 if (i>=1 && j==1)
                 {
                     textView.setText(names.get(cou++) + " - " + names1.get(cou1++))  ;
-
                 }
                 if (i>=1 && j==2)
                 {Log.d("TAAG", "Set Row cou2");
                     textView.setText(arr.get(cou2++));
-
-
                 }
                 if (i>=1 && j==3)
                 {Log.d("TAAG", "Set Row count3");
                    textView.setText(names3.get(count3++));
-
                 }
                 if (i>=1 && j==4)
                 {Log.d("TAAG", "Set Row count4");
                     textView.setText(stringList4.get(count4++));
-
                 }
                 if (i>=1 && j==5)
                 {Log.d("TAAG", "Set Row count4");
                    textView.setText(names6.get(i));
-
                 }
                  if (i>=1 && j==0)
                 {
                     textView.setText(""+id);
-
                 }
                 else if(i==0 && j >=0)
                 {
@@ -411,41 +357,20 @@ textView.setTextColor(textColor);
                    textView.setText(cv[j]);
                     textView.setTextColor(textColor1);
                     textView.setTextSize(14);
-                }
-                else if( j==0)
-                {
-                    Log.d("TAAG", "Set Row Headers");
-//                    textView.setText(names.get(i-1));
-                }
-                else
-                {
-                    //textView.setText(cv[j-1]);
-                    // check id=23
-                    if(id==23)
-                    {
-                        //textView.setText("ID=23");
-
-                    }
-                }
-
+                 }
                 // 5) add textView to tableRow
                 tableRow.addView(textView, tableRowParams);
             }
-
             // 6) add tableRow to tableLayout
             tableLayout.addView(tableRow, tableLayoutParams);
         }
-
         return tableLayout;
     }
     public void onClick(View v) {
         // TODO Auto-generated method stub
-
         if (v == button2) {
             Intent intent = new Intent(this, MainActivity.class);
-
             intent.putExtra("id", userId);
-
             Log.d("POL1", String.valueOf(userId));
             startActivity(intent);
         }
@@ -454,17 +379,15 @@ textView.setTextColor(textColor);
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-
-                Intent intent = new Intent(this, MainActivity.class);
-
-                intent.putExtra("id", userId);
-
-                Log.d("POL1", String.valueOf(userId));
+                Intent intent = new Intent(this, MainActivity3.class);
                 startActivity(intent);
-
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+    @Override public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity3.class);
+        startActivity(intent);
+      }
 }

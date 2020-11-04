@@ -31,7 +31,7 @@ public class DB1 {
     public static final String COLUMN_ID2 = "ID2";
     public static final String COLUMN_PROZ = "PROZ";
     public static final String COLUMN_SUMMD1 = "SUMMD1";
-
+    public static final String COLUMN_SUMMD = "SUMMD";
 
     private static final String DB_CREATE = "create table " + DB_TABLE + "(" +
             COLUMN_ID + " integer primary key autoincrement, " +
@@ -40,7 +40,7 @@ public class DB1 {
             COLUMN_CB + " intrger," +
             COLUMN_DATE + " intrger," +
             COLUMN_DATE1 + " integer," +
-            COLUMN_SUMMD1 + " integer," +
+            COLUMN_SUMMD + " integer," +
             COLUMN_PROZ + " integer);";
 
     private static final String DB_CREATE2 = "create table " + DB_TABLE2 + "(" +
@@ -48,6 +48,7 @@ public class DB1 {
 
             COLUMN_DATE2 + " integer," +
             COLUMN_TXT2 + " txt," +
+            COLUMN_SUMMD1 + " integer," +
             COLUMN_ID2 + " integer);";
 
     private final Context mCtx;
@@ -59,6 +60,7 @@ public class DB1 {
     public DB1(Context ctx) {
         mCtx = ctx;
     }
+
 
 
 
@@ -94,11 +96,12 @@ public class DB1 {
     }
 
     public Cursor getAllData2(int ID2) {
-
+       // Log.d("userId", String.valueOf(ID2));
         String selection = "ID2 = ?";
         String[] selectionArgs = {String.valueOf(ID2)};
         return mDB.query(DB_TABLE2, null, selection, selectionArgs, null, null, "date_3");
     }
+
 
     // добавить запись в DB_TABLE
 
@@ -111,7 +114,7 @@ public class DB1 {
         cv.put(DB1.COLUMN_DATE1, user.getDate_2());
         cv.put(DB1.COLUMN_CB, user.getCheckBox());
         cv.put(DB1.COLUMN_PROZ, user.getProz());
-        cv.put(DB1.COLUMN_SUMMD1, user.getSummD1());
+        cv.put(DB1.COLUMN_SUMMD, user.getSummD1());
         mDB.insert(DB_TABLE, null, cv);
     }
 
@@ -122,9 +125,9 @@ public class DB1 {
         cv.put(DB1.COLUMN_TXT2, user.getSumm2());
         cv.put(DB1.COLUMN_DATE2, user.getDate_3());
         cv.put(DB1.COLUMN_ID2, user.getID2());
+        cv.put(DB1.COLUMN_SUMMD1, user.getSummD1());
         mDB.insert(DB_TABLE2, null, cv);
     }
-
 
     // удалить запись из DB_TABLE
     public void delRec(long id) {
@@ -147,7 +150,7 @@ public class DB1 {
             String date1 = cursor.getString(cursor.getColumnIndex(DB1.COLUMN_DATE1));
             int checkBox = cursor.getInt(cursor.getColumnIndex(DB1.COLUMN_CB));
             int proz = cursor.getInt(cursor.getColumnIndex(DB1.COLUMN_PROZ));
-            int SummD1 = cursor.getInt(cursor.getColumnIndex(DB1.COLUMN_SUMMD1));
+            int SummD1 = cursor.getInt(cursor.getColumnIndex(DB1.COLUMN_SUMMD));
             user = new User(id, name, summ, date, date1,checkBox,proz,SummD1);
         }
         cursor.close();
@@ -197,7 +200,7 @@ public class DB1 {
         cv.put(DB1.COLUMN_DATE1, user.getDate_2());
         cv.put(DB1.COLUMN_CB, user.getCheckBox());
         cv.put(DB1.COLUMN_PROZ, user.getProz());
-        cv.put(DB1.COLUMN_SUMMD1, user.getSummD1());
+        cv.put(DB1.COLUMN_SUMMD, user.getSummD1());
         return mDB.update(DB_TABLE, cv, whereClause, null);
     }
 
@@ -208,6 +211,7 @@ public class DB1 {
         ContentValues cv = new ContentValues();
         cv.put(DB1.COLUMN_TXT2, user.getSumm2());
         cv.put(DB1.COLUMN_DATE2, user.getDate_3());
+        cv.put(DB1.COLUMN_SUMMD1, user.getSummD1());
         cv.put(DB1.COLUMN_ID2, user.getID2());
         return mDB.update(DB_TABLE2, cv, whereClause, null);
     }

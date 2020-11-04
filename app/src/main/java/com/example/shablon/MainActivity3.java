@@ -3,9 +3,11 @@ package com.example.shablon;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.LoaderManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Build;
@@ -16,8 +18,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
 
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -56,28 +56,25 @@ public class MainActivity3 extends AppCompatActivity  {
     private static final int CM_POSM_ID = 3;
     private static final int CM_HISTORY_ID = 4;
     private static final int CM_PAY_ID = 5;
-    ListView lvData,lvData2;
+    public static SimpleCursorAdapter scAdapter,scAdapter2;
+    ListView lvData;
     DB1 db;
-    SimpleCursorAdapter scAdapter,scAdapter2;
     Cursor cursor;
     TextView textView10, textView11,TVproz;
-    RelativeLayout linear1;
-    int den, mes, god;
+    int den, mes, god,checkBox,strName;
     Context mContext;
     Button yourButton;
     String date = null;
-    Adapter ad;
     int[] to;
     String[] from;
-    int checkBox;
-    /** Called when the activity is first created. */
+
+        /** Called when the activity is first created. */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
         setContentView(R.layout.activity_main3);
         TVproz = (TextView) findViewById(R.id.TVproz);
-       CheckBox Gk395 = (CheckBox) findViewById(R.id.Gk395);
         // открываем подключение к БД
 
         db = new DB1(this);
@@ -88,12 +85,12 @@ public class MainActivity3 extends AppCompatActivity  {
         startManagingCursor(cursor);
 
         // формируем столбцы сопоставления
-        from = new String[] {DB1.COLUMN_TXT,DB1.COLUMN_TXT1,DB1.COLUMN_SUMMD1};
+        from = new String[] {DB1.COLUMN_TXT,DB1.COLUMN_TXT1,DB1.COLUMN_SUMMD};
         to = new int[] { R.id.tvText,R.id.tvText1,R.id.ostDol};
 
         // создааем адаптер и настраиваем список
-        //scAdapter = new SimpleCursorAdapter(this, R.layout.item, cursor, from, to,0);
-        scAdapter = new Adapter(this,R.layout.item,cursor,from,to);
+
+        scAdapter = new Adapter(this,R.layout.item,cursor,from,to,2);
         lvData = (ListView) findViewById(R.id.lvData);
         lvData.setItemsCanFocus(true);
         final View item = getLayoutInflater().inflate(R.layout.item,null);
@@ -102,13 +99,8 @@ public class MainActivity3 extends AppCompatActivity  {
 
         // добавляем контекстное меню к списку
         registerForContextMenu(lvData);
-       // getSupportLoaderManager().initLoader(0, null, this);
+
         db.open();
-
-        //lvData2 = (ListView) findViewById(R.id.lvData2);
-        //lvData2.setAdapter(scAdapter2);
-
-
         lvData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -121,21 +113,30 @@ public class MainActivity3 extends AppCompatActivity  {
                     dialog.setArguments(args);
                     dialog.show(getSupportFragmentManager(), "custom");
                     }
+
+                cursor.requery();
+
             }
+
         });
+        cursor.requery();
 
     }
+    protected void updateListView() {
+        // Get an updated cursor with any changes to the database.
+        Cursor updatedCursor = db.getAllData();
 
+        // Update the ListAdapter.
+        scAdapter.changeCursor(updatedCursor);
+    }
     // обработка нажатия кнопки
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void onButtonClick(View view) {
+
         mContext=this;
         AlertDialog.Builder builder = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog);
-
         final View custom_dialogalert = getLayoutInflater().inflate(R.layout.custom_dialogalert,null);
         builder.setView(custom_dialogalert);
-
-
         final TextView textView10 = (TextView) custom_dialogalert.findViewById(R.id.textView10);
         final AlertDialog dialog = builder.create();
         final Calendar c = Calendar.getInstance();
@@ -145,14 +146,12 @@ public class MainActivity3 extends AppCompatActivity  {
          textView10.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         String date1 = year + "." + (month + 1) + "." + dayOfMonth;
                         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
                         Date datenorm;
-
                         try {
                             datenorm = dateFormat.parse(date1);
                             date = dateFormat.format(datenorm.getTime());
@@ -163,22 +162,14 @@ public class MainActivity3 extends AppCompatActivity  {
                         date=null;
                     }
                 };
-
                 DatePickerDialog datePickerDialog = new DatePickerDialog(mContext,
                         dateSetListener, god, mes, den);
-                //Toast.makeText(getApplicationContext(), "Введите дату", Toast.LENGTH_SHORT).show();
-                datePickerDialog.show();
+                                datePickerDialog.show();
 
             }
         });
         final TextView textView11 = (TextView) custom_dialogalert.findViewById(R.id.textView11);
-        //на будующее установка текущей даты
-
-
-      /*  String tdata = (DateUtils.formatDateTime(mContext,c.getTimeInMillis(),
-                 DateUtils.FORMAT_SHOW_YEAR));
-        textView11.setText(tdata);*/
-        textView11.setOnClickListener(new View.OnClickListener() {
+               textView11.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Calendar c = Calendar.getInstance();
@@ -238,8 +229,7 @@ public class MainActivity3 extends AppCompatActivity  {
             }
         });
 
-       // final TextView TVproz = (TextView) custom_dialogalert.findViewById(R.id.TVproz);
-        ProzP.setOnClickListener(new View.OnClickListener() {
+           ProzP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -354,11 +344,12 @@ public class MainActivity3 extends AppCompatActivity  {
             AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
             // извлекаем id записи и удаляем соответствующую запись в БД
             db.delRec(acmi.id);
-
+cursor= db.getAllData();
             cursor.requery();
+            scAdapter.changeCursor(cursor);
             return true;
         }
-            // обновляем курсор
+
             if (item.getItemId() == CM_IZM_ID) {
                 AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -382,20 +373,8 @@ public class MainActivity3 extends AppCompatActivity  {
             return true;
         }
 
-
-
         if (item.getItemId() == CM_HISTORY_ID) {
             AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-           /* final Intent intent = new Intent(this, MainActivity2.class);
-            Bundle b = new Bundle();
-            b.putInt("userId", (int) acmi.id);
-            intent.putExtras(b);
-            startActivity(intent);
-            CustomDialogHistory dialog = new CustomDialogHistory();
-            Bundle args = new Bundle();
-            args.putString("phone", String.valueOf(acmi));
-            dialog.setArguments(args);
-            dialog.show(getSupportFragmentManager(), "custom");*/
             cursor = db.getAllData2((int) acmi.id);
             startManagingCursor(cursor);
             String[] from1 = new String[] {DB1.COLUMN_DATE2, DB1.COLUMN_TXT2};
@@ -403,39 +382,24 @@ public class MainActivity3 extends AppCompatActivity  {
             scAdapter2 = new SimpleCursorAdapter(this, R.layout.history_dialog, cursor, from1, to1);
             final AlertDialog.Builder alert = new AlertDialog.Builder(this,android.R.style.Theme_DeviceDefault_Dialog);
             LayoutInflater inflater = getLayoutInflater();
-
-
-
-            View history = inflater.inflate(R.layout.history_dialog, null);
-            TextView NameD = (TextView) history.findViewById(R.id.NameD);
-            TextView title = new TextView(this);
-// You Can Customise your Title here
-
+             TextView title = new TextView(this);
             title.setBackgroundColor(Color.DKGRAY);
             title.setPadding(10, 10, 10, 10);
             title.setGravity(Gravity.CENTER);
             title.setTextColor(Color.WHITE);
             title.setTextSize(20);
-            Cursor cursor = db.getAllDataT2((int) acmi.id);
+             cursor = db.getAllDataT2((int) acmi.id);
             if(cursor.moveToFirst()){
                 do{
 
                     String name = cursor.getString(cursor.getColumnIndex(DB1.COLUMN_TXT));
-                    //int year = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_YEAR));
-                    //arrayAdapter.add(name);
-                    //alert.setTitle( name);
-                    title.setText(name);
-                    //NameD.setText(name);
-                }
+                     title.setText(name);
+                                    }
                 while (cursor.moveToNext());
             }
 
             alert.setCustomTitle(title);
-            cursor.close();
 
-                   // alert.setAdapter(scAdapter2);
-
-                    //alert.setAdapter(typAdapter, this);
             alert.setNegativeButton(
                     "cancel",
                     new DialogInterface.OnClickListener() {
@@ -448,11 +412,28 @@ public class MainActivity3 extends AppCompatActivity  {
             alert.setAdapter(scAdapter2,new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            String strName = String.valueOf(scAdapter.getItem(which));
-                            /*AlertDialog.Builder builderInner = new AlertDialog.Builder(
-                                    getApplicationContext(), android.R.style.Theme_DeviceDefault_Dialog);
-                            builderInner.setMessage(strName);
-                            builderInner.setTitle("Your Selected Item is");
+                            strName = (int) scAdapter2.getItemId(which);
+
+                         /*   Toast.makeText(getApplicationContext(), String.valueOf(strName), Toast.LENGTH_SHORT).show();
+                            db.open();
+                           cursor = db.getAllData2(strName);
+
+
+                            //cursor.moveToFirst();
+                            //расчитываем сумму зад и период
+                            if(cursor.moveToFirst()){
+                                do{
+                                data = cursor.getString(cursor.getColumnIndex("date_3"));
+                                ost = cursor.getString(cursor.getColumnIndex("SUMMD1"));
+                                cursor.moveToNext();
+                                }
+                                while (cursor.moveToNext());
+                            }
+cursor.close();
+                            cursor.requery();
+                            AlertDialog.Builder builderInner = new AlertDialog.Builder(MainActivity3.this, android.R.style.Theme_DeviceDefault_Dialog);
+                            builderInner.setMessage("остаток долга был" + " " + ost + "руб");
+                            builderInner.setTitle("На дату" + " " + data);
 
 
                             builderInner.setPositiveButton(
@@ -465,25 +446,22 @@ public class MainActivity3 extends AppCompatActivity  {
                                             dialog.dismiss();
                                         }
                                     });
-                            builderInner.show();*/
+                            builderInner.show();
+
+*/
+
+                           // Toast.makeText(getApplicationContext(), "На дату" + data + "остаток долга" + ost, Toast.LENGTH_SHORT).show();
+
+                            dialog.dismiss();
                         }
                     });
             alert.show();
 
-
-           // break;
-
+cursor.requery();
             return true;
         }
         if (item.getItemId() == CM_PAY_ID) {
             AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-           /* final Intent intent = new Intent(this, MainActivity2.class);
-            Bundle b = new Bundle();
-            b.putInt("userId", (int) acmi.id);
-            intent.putExtras(b);
-            startActivity(intent);*/
-
-
             CustomDialogFragment dialog = new CustomDialogFragment();
             Bundle args = new Bundle();
             args.putString("phone", String.valueOf(acmi.id));
@@ -506,7 +484,6 @@ public class MainActivity3 extends AppCompatActivity  {
                 //Toast.makeText(this, R.string.text, Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder alert = new AlertDialog.Builder(this,android.R.style.Theme_DeviceDefault_Dialog);
 
-                //alert.setTitle("Title");
                 alert.setMessage("Message");
 
                 final View custom_dialogalert = getLayoutInflater().inflate(R.layout.custom_dialogalert3,null);
@@ -517,22 +494,17 @@ public class MainActivity3 extends AppCompatActivity  {
 
                     }
                 });
-
-
-
                 alert.show();
-
-
                 break;
-
         }
         return true;
     }
     protected void onDestroy() {
         super.onDestroy();
         // закрываем подключение при выходе
-        db.close();
+        //db.close();
     }
+
 
 
 }

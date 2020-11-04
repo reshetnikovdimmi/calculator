@@ -13,57 +13,55 @@
     <TextView
         android:id="@+id/textView3"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:layout_below="@+id/textView13"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:background="#DF716F6F"
+        android:background="#E6403E3E"
         android:gravity="center"
         android:text="СУММА"
         android:textColor="#E6FFFFFF"
         app:drawableTint="#A395BC"
-        app:layout_constraintEnd_toStartOf="@+id/checkBox"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView15"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editText"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:layout_below="@+id/textView3"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="false"
         android:gravity="center"
         android:inputType="number"
+        android:background="#DF716F6F"
         app:layout_constraintEnd_toEndOf="@+id/textView3"
-        app:layout_constraintHorizontal_bias="0.51"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <EditText
         android:id="@+id/prView"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
         android:layout_below="@+id/textView3"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="100dp"
         android:gravity="center"
         android:text="%"
+        android:background="#DF716F6F"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/textView5"
-        app:layout_constraintStart_toEndOf="@+id/editText"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ProizPr" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="15dp"
         android:layout_below="@+id/editText"
 
-        android:background="#DF716F6F"
+        android:background="#E6403E3E"
         android:gravity="center"
         android:text="ПЕРИОД"
         android:textColor="#E6FFFFFF"
@@ -75,13 +73,14 @@
     <TextView
         android:id="@+id/textDate1"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:layout_below="@+id/textView4"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:gravity="center"
         android:onClick="onclick"
         android:text="начало"
+        android:background="#DF716F6F"
         android:textColor="#151515"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/textDate2"
@@ -95,13 +94,14 @@
     <TextView
         android:id="@+id/textDate2"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:layout_below="@+id/textView4"
         android:layout_toEndOf="@+id/textDate1"
         android:layout_toRightOf="@+id/textDate1"
         android:gravity="center"
         android:onClick="onclick"
         android:text="конец"
+        android:background="#DF716F6F"
         android:textColor="#151515"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -117,20 +117,22 @@
         android:layout_below="@+id/textDate1"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:background="#DF716F6F"
+        android:layout_marginTop="5dp"
+        android:background="#E6403E3E"
         android:gravity="center"
         android:text="Частичная оплата долга"
         android:textColor="#E6FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textDate1">
+        app:layout_constraintTop_toBottomOf="@+id/textView5">
 
     </TextView>
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:layout_below="@+id/textView2"
         android:layout_marginTop="0dp"
         android:layout_marginEnd="0dp"
@@ -161,15 +163,16 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_below="@+id/textView9"
-        android:layout_marginTop="10dp"
         android:background="#95FFFFFF"
 
         android:divider="@android:color/transparent"
         android:dividerHeight="10.0sp"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.04"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCreate" />
+        app:layout_constraintTop_toBottomOf="@+id/btnCreate"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/btnCreate"
@@ -178,11 +181,13 @@
         android:layout_below="@+id/textView2"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"
         android:background="#E6403E3E"
         android:onClick="onDob"
         android:text="ДОБАВИТЬ"
         android:textColor="#E6FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2">
 
@@ -225,38 +230,39 @@
 
     <EditText
         android:id="@+id/textView13"
-        style="@android:style/Widget.Holo.Light.EditText"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
+
+        android:layout_width="0dp"
+        android:layout_height="30dp"
         android:layout_alignParentTop="true"
-        android:background="#FFFFFF"
+        android:background="#DF716F6F"
         android:gravity="center"
         android:text="TextView"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintEnd_toStartOf="@+id/editText"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
     <CheckBox
         android:id="@+id/checkBox"
 
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:layout_toEndOf="@+id/textView13"
         android:layout_toRightOf="@+id/textView13"
-        android:background="#DF716F6F"
-        android:gravity="center"
-        android:text="Расчет процентов по ст. 365 ГК"
+        android:background="#E6403E3E"
+
+        android:text="Расчет % по ст. 365 ГК"
         android:textColor="#E6FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintStart_toEndOf="@+id/ProizPr"
+        app:layout_constraintTop_toBottomOf="@+id/textDate2" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#DF716F6F"
+        android:background="#E6403E3E"
         android:gravity="center"
         android:text="Начало"
         android:textColor="#E6FFFFFF"
@@ -268,7 +274,7 @@
         android:id="@+id/textView8"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#DF716F6F"
+        android:background="#E6403E3E"
         android:gravity="center"
         android:text="Конец"
         android:textColor="#E6FFFFFF"
@@ -279,11 +285,35 @@
     <TextView
         android:id="@+id/textView5"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:gravity="center"
         android:text="%"
+        android:background="#DF716F6F"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/prView"
         app:layout_constraintTop_toBottomOf="@+id/checkBox" />
+
+    <CheckBox
+        android:id="@+id/ProizPr"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:background="#E6403E3E"
+        android:textColor="#E6FFFFFF"
+        android:text="Произвольный %"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textDate1" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:background="#E6403E3E"
+        android:gravity="center"
+        android:text="НАИМЕНОВАНИЕ ДОЛГА"
+        android:textColor="#E6FFFFFF"
+        app:layout_constraintEnd_toStartOf="@+id/textView3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

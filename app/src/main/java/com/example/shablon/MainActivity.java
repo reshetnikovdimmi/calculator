@@ -53,9 +53,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     DB1 db;
     long userId = 0;
     SimpleCursorAdapter scAdapter1;
-    CheckBox checkBox1;
+    CheckBox checkBox1,ProizPr;
     Context mContext;
     User user;
+    String date_3;
+    String date = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnCreate = (Button) findViewById(R.id.btnCreate);
         linear = (LinearLayout) findViewById(R.id.linear);
         checkBox1 = (CheckBox) findViewById(R.id.checkBox);
-
+        ProizPr = (CheckBox) findViewById(R.id.ProizPr);
         textDate1.setOnClickListener(this);
         textDate2.setOnClickListener(this);
         button.setOnClickListener(this);
@@ -108,15 +110,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
-//user.setCheckBox(0);
-       // Log.d("POL", String.valueOf(user.getCheckBox()));
-//        User user = adapter.getUser(userId);
+
         checkBox = user.getCheckBox();
 
             boolean checkBox2 = user.getCheckBox() > 0;
         Log.d("array", String.valueOf(user.getCheckBox()));
             checkBox1.setChecked(checkBox2);
-            if (checkBox2){
+        checkBox2 = user.getCheckBox() == 0;
+        ProizPr.setChecked(checkBox2);
+
+            if (checkBox == 1){
 
                 prView.setVisibility(View.INVISIBLE);
                 textView5.setVisibility(View.INVISIBLE);
@@ -140,17 +143,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     // Your code
                     checkBox =1;
                     //Toast.makeText(getApplicationContext(), "Еще в разработке", Toast.LENGTH_SHORT).show();
-
+                    ProizPr.setChecked(false);
                     prView.setVisibility(View.INVISIBLE);
                     textView5.setVisibility(View.INVISIBLE);
                 }
 
                 else{
 
-                    // Your code
+                    ProizPr.setChecked(true);
                     checkBox=0;
                     prView.setVisibility(View.VISIBLE);
                     textView5.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
+        ProizPr.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                boolean checked = ((CheckBox) v).isChecked();
+                // Check which checkbox was clicked
+
+
+                if (checked){
+                    // Your code
+                    checkBox =0;
+                    //Toast.makeText(getApplicationContext(), "Еще в разработке", Toast.LENGTH_SHORT).show();
+                    checkBox1.setChecked(false);
+                    prView.setVisibility(View.VISIBLE);
+                    textView5.setVisibility(View.VISIBLE);
+                }
+
+                else{
+
+                    checkBox1.setChecked(true);
+                    checkBox=1;
+                    prView.setVisibility(View.INVISIBLE);
+                    textView5.setVisibility(View.INVISIBLE);
                 }
 
             }
@@ -162,23 +193,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         String[] from1 = new String[] {DB1.COLUMN_DATE2, DB1.COLUMN_TXT2};
         int[] to1 = new int[] { R.id.editText,R.id.textView7};
-        scAdapter1 = new SimpleCursorAdapter(this, R.layout.custom_edittext_layout, cursor, from1, to1);
+        scAdapter1 = new SimpleCursorAdapter(this, R.layout.custom_edittext_layout, cursor, from1, to1,2);
        // new String[] { Definition.Item.TITLE, Definition.Item.CREATE_DATE }, new int[] { R.id.title, R.id.createDate});
 //здесь надо поменять дату
-       scAdapter1.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+      /* scAdapter1.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
 
             public boolean setViewValue(View aView, Cursor aCursor, int aColumnIndex) {
 
                 if (aColumnIndex == 1) {
                     String createDate = aCursor.getString(aColumnIndex);
                     TextView textView = (TextView) aView;
-                    textView.setText(/*"date:" + */createDate);
+                    textView.setText("date:" + createDate);
                     return true;
                 }
 
                 return false;
             }
-        });
+        });*/
 
         lvData2 = (ListView) findViewById(R.id.lvData2);
         lvData2.setAdapter(scAdapter1);
@@ -200,8 +231,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
             // извлекаем id записи и удаляем соответствующую запись в БД
             adapter.delRec1(acmi.id);
-            // обновляем курсор
             cursor.requery();
+            updateListView();
+
+            ArrayList<String> names2= new ArrayList<>();;
+            ArrayList<String> names3= new ArrayList<>();;
+                cursor = adapter.getAllData2((int) userId);
+                cursor.moveToFirst();
+                //расчитываем сумму зад и период
+                while (!cursor.isAfterLast()) {
+                    names2.add(cursor.getString(cursor.getColumnIndex("summ2")));
+                    cursor.moveToNext();
+                }
+                user  = adapter.getUser(userId);
+                names3.add(String.valueOf(user.getSumm()));
+                for (int i = 0; i < names2.size() ; i++) {
+                    int s = Integer.parseInt(names3.get(i));
+                    int s1 = Integer.parseInt(names2.get(i));
+                    names3.add(String.valueOf(s - s1));
+                }
+                int summD1 = Integer.parseInt(names3.get(names3.size()-1));
+            Log.d("summD1", String.valueOf(summD1) + " остаток");
+                user.setSummD1(summD1);
+                adapter.update(user);
+
             return true;
         }
         return super.onContextItemSelected(item);
@@ -210,45 +263,55 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        // TODO Auto-generated method stub
-        final Calendar c = Calendar.getInstance();
-        den = c.get(Calendar.DAY_OF_MONTH);
-        mes = c.get(Calendar.MONTH);
-        god = c.get(Calendar.YEAR);
-        if (v == textDate1) {
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    String date1 = year + "." + (month + 1) + "." + dayOfMonth;
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
-                    Date datenorm;
-                    String date = null;
-                    try {
-                        datenorm = dateFormat.parse(date1);
-                        date = dateFormat.format(datenorm.getTime());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        if (dateFormat.parse(date).before(dateFormat.parse("1992.01.01"))) {
-                            Toast.makeText(getApplicationContext(), "Дата ачало не может быть меньше 1992.01.01", Toast.LENGTH_SHORT).show();
 
-                        }else {
+            // TODO Auto-generated method stub
 
-                            textDate1.setText(date);
+            if (v == textDate1) {
+
+                //break;
+                Calendar c = Calendar.getInstance();
+                den = c.get(Calendar.DAY_OF_MONTH);
+                mes = c.get(Calendar.MONTH);
+                god = c.get(Calendar.YEAR);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        String date1 = year + "." + (month + 1) + "." + dayOfMonth;
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
+                        Date datenorm;
+                        //String date = null;
+                        try {
+                            datenorm = dateFormat.parse(date1);
+                            date = dateFormat.format(datenorm.getTime());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            if (dateFormat.parse(date).before(dateFormat.parse("1992.01.01"))) {
+                                Toast.makeText(getApplicationContext(), "Дата ачало не может быть меньше 1992.01.01", Toast.LENGTH_SHORT).show();
+
+                            } else {
+
+                                textDate1.setText(date);
+                            }
+
+
+                        } catch (ParseException e) {
+                            e.printStackTrace();
                         }
 
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
                     }
-                }
-            }
-                    , god, mes, den);
 
-            datePickerDialog.show();
+                }
+                        , god, mes, den);
+
+                datePickerDialog.show();
         }
         if (v == textDate2) {
+            Calendar c = Calendar.getInstance();
+            den = c.get(Calendar.DAY_OF_MONTH);
+            mes = c.get(Calendar.MONTH);
+            god = c.get(Calendar.YEAR);
             DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -279,136 +342,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     , god, mes, den);
             datePickerDialog.show();
         }
- User user = adapter.getUser(userId);
+                  user = adapter.getUser(userId);
         if (v == btnCreate) {
             mContext=this;
-            AlertDialog.Builder builder = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog);
-            //final AlertDialog.Builder alert = new AlertDialog.Builder(mContext, android.R.style.Theme_DeviceDefault_Dialog);
-            final View custom_dialogalert2 = getLayoutInflater().inflate(R.layout.custom_dialogalert2,null);
-            builder.setView(custom_dialogalert2);
 
-
-            final TextView dateCD2 = (TextView) custom_dialogalert2.findViewById(R.id.dateCD2);
-            final EditText summCD2 = (EditText) custom_dialogalert2.findViewById(R.id.summCD2);
-            final AlertDialog dialog = builder.create();
-            dateCD2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-
-                    DatePickerDialog datePickerDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                            String date1 = year + "." + (month + 1) + "." + dayOfMonth;
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
-                            Date datenorm;
-                            String date = null;
-                            try {
-                                datenorm = dateFormat.parse(date1);
-                                date = dateFormat.format(datenorm.getTime());
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            dateCD2.setText(date);
-                        }
-
-                    }
-                            , god, mes, den);
-                    datePickerDialog.show();
-                }
-            });
-
-
-            final Button cancel = (Button) custom_dialogalert2.findViewById(R.id.cancel);
-            cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Dismiss the alert dialog
-                    dialog.cancel();
-
-                }
-            });
-
-            final Button OK = (Button) custom_dialogalert2.findViewById(R.id.OK);
-            //final User finalUser = user;
-            final User finalUser = user;
-            //final User finalUser1 = user;
-            OK.setOnClickListener(new View.OnClickListener() {
-               // private User user = adapter.getUser(userId);
-
-                @Override
-                public void onClick(View v) {
-
-                    EditText summCD2 = custom_dialogalert2.findViewById(R.id.summCD2);
-                    boolean retval1 = summCD2.getText().toString().isEmpty();
-                    if (retval1 == true) {
-
-                        Toast.makeText(getApplicationContext(), "Введите сумму", Toast.LENGTH_SHORT).show();
-                    }
-                    TextView editText1 = custom_dialogalert2.findViewById(R.id.dateCD2);
-                    String date_3 = (editText1.getText().toString());
-
-
-                    if (dateCD2.getText().equals("0000.00.00")) {
-                        Toast.makeText(getApplicationContext(), "Введите дату", Toast.LENGTH_SHORT).show();
-                    }
-
-                        else {
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
-
-
-                        try {
-                            if (dateFormat.parse(dateCD2.getText().toString()).before(dateFormat.parse(textDate1.getText().toString()))) {
-                                Toast.makeText(getApplicationContext(), "Дата гашения не может быть меньше дата начало", Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        if (Integer.parseInt(summCD2.getText().toString()) > finalUser.getSummD1()) {
-                           Toast.makeText(getApplicationContext(), "Сумма гашения не может быть больше долга", Toast.LENGTH_SHORT).show();
-
-
-
-                            } else {
-                                        int summ2 = Integer.parseInt(summCD2.getText().toString());
-                                        dialog.cancel();
-                                        int ID2 = (int) userId;
-
-                                        String name = textView13.getText().toString();
-                                        int summ = Integer.parseInt(editText.getText().toString());
-                                        String date_1 = textDate1.getText().toString();
-
-                                        String date_2 = textDate2.getText().toString();
-                                        int proz = Integer.parseInt(prView.getText().toString());
-
-                                int summD1= finalUser.getSummD1();
-                                User user = new User(userId, name, summ, summ2, ID2, date_1, date_2, date_3, checkBox, proz,summD1);
-
-
-                                        adapter.open();
-                                        if (userId > 0) {
-                                            adapter.addRec2(user);
-
-                                            adapter.update(user);
-                                            // adapter.updateOst(user);
-                                        } else {
-                                            adapter.addRec(user);
-
-                                            adapter.addRec2(user);
-                                        }
-
-                                        cursor.requery();
-                                        // adapter.close();
-
-                                    }
-
-                    }
-                }
-
-            });
-
-            dialog.show();
-        }
+            CustomDialogFragment dialog = new CustomDialogFragment();
+            Bundle args = new Bundle();
+            args.putString("phone1", String.valueOf(userId));
+            dialog.setArguments(args);
+            dialog.show(getSupportFragmentManager(), "custom");
+           }
 
 
 
@@ -421,8 +364,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String date_1 = textDate1.getText().toString();
             String date_2 = textDate2.getText().toString();
             int proz = Integer.parseInt(prView.getText().toString());
-
-            user = new User(userId, name, summ,date_1,date_2,checkBox,proz);
+            int ID2 = (int) userId;
+            int summ2 = user.getSumm2();
+            int summD1= user.getSummD1();
+            user = new User(userId, name, summ, summ2, ID2, date_1, date_2, date_3, checkBox, proz,summD1);
             adapter.open();
             adapter.update(user);
             adapter.update2(user);
@@ -447,7 +392,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return super.onOptionsItemSelected(item);
         }
     }
+    protected void updateListView() {
+        // Get an updated cursor with any changes to the database.
+        Cursor updatedCursor = adapter.getAllData2((int) userId);
 
+        // Update the ListAdapter.
+        scAdapter1.changeCursor(updatedCursor);
+    }
+    @Override public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity3.class);
+        startActivity(intent);
+    }
 }
 
 

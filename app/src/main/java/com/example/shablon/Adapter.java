@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 public class Adapter extends SimpleCursorAdapter {
     Context ctx;
-    public Adapter(Context context, int layout, Cursor cursor, String[] from, int[] to) {
+    public Adapter(Context context, int layout, Cursor cursor, String[] from, int[] to, int i) {
         super(context, layout, cursor, from, to);
         ctx = context;
            }
@@ -36,4 +36,5 @@ public class Adapter extends SimpleCursorAdapter {
         }
 
     };
+
 }
